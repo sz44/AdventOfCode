@@ -10,8 +10,6 @@ data = [int(s) for s in f.read().split()]
 total = 0
 
 def dfs(i):
-    global total
-
     if i >= len(data):
         return 0
 
@@ -20,17 +18,38 @@ def dfs(i):
 
     skip = 2 
 
+    childVals = []
+
     # skip children
     for _ in range(children):
-        skip += dfs(i + skip)
+        s, val = dfs(i + skip)
+        skip += s
+        childVals.append(val)
 
-    # add to total
+    val = 0
+
+    if children:
+        for n in range(metaData):
+            ind = data[i + skip + n]
+            if ind <= children:
+                val += childVals[ind-1] 
+    else:
+        for n in range(metaData):
+            val += data[i + skip + n]
+
+    # part 1
+    global total
     for n in range(metaData):
         total += data[i + skip + n]
 
     # node size: 2 for header + size of children + metaData
-    return skip + metaData
+    skip += metaData
 
-dfs(0)   
+    return [skip, val]
 
+a = dfs(0)   
+
+# part 1
 print(total)
+# part 2
+print(a[1])
