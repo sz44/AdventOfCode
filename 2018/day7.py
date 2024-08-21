@@ -14,7 +14,7 @@ with open("input_day7.txt") as f:
 
 adj = {}
 
-for line in data:
+for line in testData:
     words = line.strip().split()
     val = words[1]
     key = words[-3]
@@ -47,9 +47,9 @@ done = set()
 # print(order)
 
 # part 2
-workers = 5
+workers = 2
 doing = dict() # char : time
-time = 0
+second = 0
 
 while len(order) < len(adj.keys()):
     # part 1: do jobs
@@ -71,19 +71,23 @@ while len(order) < len(adj.keys()):
 
     # part 2: add jobs to workers
     while workers > 0:
+        # job_added = False
         for c in chars:
             if len(adj[c]) == 0 and c not in done and c not in doing:
-                doing[c] = ord(c) - ord('A') + 1 + 60
+                doing[c] = ord(c) - ord('A') + 1 
                 workers -= 1
                 # job assigned, go to next worker
+                # job_added = True
                 break
+        # if not job_added:
+            # break
         else:
             # print("no jobs available")
             break
         # no jobs available
         # break
 
-    time += 1
+    second += 1
 
 print(order)
-print(time) 
+print(second) 
